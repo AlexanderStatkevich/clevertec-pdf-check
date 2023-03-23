@@ -25,10 +25,25 @@ import static java.time.LocalTime.now;
 
 public class PdfPrinter implements Printer {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    private static void addTime(PdfPTable table) {
+        String time = now().format(TIME_FORMATTER);
+        PdfPCell cell = new PdfPCell();
+        cell.setColspan(6);
+        cell.setPhrase(new Phrase("Time: " + time));
+        table.addCell(cell);
+    }
+
+    private static void addHeader(PdfPTable table) {
+        PdfPCell cell = new PdfPCell();
+        cell.setColspan(6);
+        cell.setPhrase(new Phrase("Super Marker: Clevertec"));
+        table.addCell(cell);
+    }
 
     @Override
-    public static void print(ReceiptDto receiptDto) throws IOException, DocumentException {
+    public void print(ReceiptDto receiptDto) throws IOException, DocumentException {
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("receipt.pdf"));
         document.open();
@@ -49,21 +64,6 @@ public class PdfPrinter implements Printer {
         addFooter(table, receiptDto.total());
         document.add(table);
         document.close();
-    }
-
-    private static void addHeader(PdfPTable table) {
-        PdfPCell cell = new PdfPCell();
-        cell.setColspan(6);
-        cell.setPhrase(new Phrase("Super Marker: Clevertec"));
-        table.addCell(cell);
-    }
-
-    private static void addTime(PdfPTable table) {
-        String time = now().format(formatter);
-        PdfPCell cell = new PdfPCell();
-        cell.setColspan(6);
-        cell.setPhrase(new Phrase("Time: " + time));
-        table.addCell(cell);
     }
 
     private static void addDate(PdfPTable table) {
