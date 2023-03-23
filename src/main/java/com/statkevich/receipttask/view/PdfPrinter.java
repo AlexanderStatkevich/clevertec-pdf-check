@@ -17,30 +17,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.time.LocalTime.now;
+
 
 public class PdfPrinter implements Printer {
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-    private static void addTime(PdfPTable table) {
-        String time = now().format(TIME_FORMATTER);
-        PdfPCell cell = new PdfPCell();
-        cell.setColspan(6);
-        cell.setPhrase(new Phrase("Time: " + time));
-        table.addCell(cell);
-    }
-
-    private static void addHeader(PdfPTable table) {
-        PdfPCell cell = new PdfPCell();
-        cell.setColspan(6);
-        cell.setPhrase(new Phrase("Super Marker: Clevertec"));
-        table.addCell(cell);
-    }
 
     @Override
     public void print(ReceiptDto receiptDto) {
@@ -69,6 +55,22 @@ public class PdfPrinter implements Printer {
             throw new RuntimeException(e);
         }
     }
+
+    private static void addTime(PdfPTable table) {
+        String time = LocalTime.now().format(TIME_FORMATTER);
+        PdfPCell cell = new PdfPCell();
+        cell.setColspan(6);
+        cell.setPhrase(new Phrase("Time: " + time));
+        table.addCell(cell);
+    }
+
+    private static void addHeader(PdfPTable table) {
+        PdfPCell cell = new PdfPCell();
+        cell.setColspan(6);
+        cell.setPhrase(new Phrase("Super Marker: Clevertec"));
+        table.addCell(cell);
+    }
+
     private static void addDate(PdfPTable table) {
         String date = LocalDate.now().toString();
         PdfPCell cell = new PdfPCell();
