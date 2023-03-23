@@ -43,29 +43,32 @@ public class PdfPrinter implements Printer {
     }
 
     @Override
-    public void print(ReceiptDto receiptDto) throws IOException, DocumentException {
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("receipt.pdf"));
-        document.open();
-        PdfReader reader = new PdfReader("Clevertec_Template.pdf");
-        PdfImportedPage page = writer.getImportedPage(reader, 1);
-        PdfContentByte directContent = writer.getDirectContent();
-        directContent.addTemplate(page, 0, 0);
+    public void print(ReceiptDto receiptDto) {
+        try {
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("receipt.pdf"));
+            document.open();
+            PdfReader reader = new PdfReader("Clevertec_Template.pdf");
+            PdfImportedPage page = writer.getImportedPage(reader, 1);
+            PdfContentByte directContent = writer.getDirectContent();
+            directContent.addTemplate(page, 0, 0);
 
-        Paragraph paragraph = new Paragraph("\n".repeat(7));
-        document.add(paragraph);
+            Paragraph paragraph = new Paragraph("\n".repeat(7));
+            document.add(paragraph);
 
-        PdfPTable table = new PdfPTable(6);
-        addHeader(table);
-        addDate(table);
-        addTime(table);
-        addTableHeader(table);
-        addRows(table, receiptDto);
-        addFooter(table, receiptDto.total());
-        document.add(table);
-        document.close();
+            PdfPTable table = new PdfPTable(6);
+            addHeader(table);
+            addDate(table);
+            addTime(table);
+            addTableHeader(table);
+            addRows(table, receiptDto);
+            addFooter(table, receiptDto.total());
+            document.add(table);
+            document.close();
+        } catch (DocumentException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
     private static void addDate(PdfPTable table) {
         String date = LocalDate.now().toString();
         PdfPCell cell = new PdfPCell();
