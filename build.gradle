@@ -39,9 +39,7 @@ dependencies {
             "org.apache.logging.log4j:log4j-api:${log4jVersion}",
             "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}",
             'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.1',
-            'com.itextpdf:itextpdf:5.5.10',
-            'org.apache.pdfbox:pdfbox:2.0.4',
-            'org.bouncycastle:bcprov-jdk15on:1.56'
+            'com.itextpdf:itextpdf:5.5.10'
     )
 
     compileOnly(
