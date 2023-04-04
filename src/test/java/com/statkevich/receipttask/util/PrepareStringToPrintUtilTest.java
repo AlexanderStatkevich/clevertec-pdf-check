@@ -3,6 +3,7 @@ package com.statkevich.receipttask.util;
 import com.statkevich.receipttask.dto.ReceiptDto;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -13,15 +14,17 @@ class PrepareStringToPrintUtilTest {
 
     private final String expected = """
                    Quantity     Description           Price           Total            Sale     Sale Amount
-                            
+
                           6           Name1               5              27            -10%              -3
                           3           Name2              10            29.1             -3%            -0.9
-                            
+
                                                      Total:            56.1
             """;
 
+
     @Test
-    void checkStringUtilPrepareCorrectReceipt() {
+    void checkStringUtilPrepareCorrectReceipt() throws IOException {
+//        String expected = Files.readString(Path.of("src/test/resources/receipt.txt"));
 
         ReceiptDto receiptDto = new ReceiptDto(List.of(
                 aReceiptRow().withProductName("Name1").build(),
