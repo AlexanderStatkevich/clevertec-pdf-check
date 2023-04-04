@@ -22,10 +22,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Stream;
 
-
-
+/**
+ * Described class implement output of {@link ReceiptDto} in PDF file.
+ */
 public class PdfPrinter implements Printer {
 
+    //Formatter used to correctly display the time in the receipt
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @Override
